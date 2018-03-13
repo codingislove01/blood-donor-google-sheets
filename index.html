@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blood Donor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script src="//script.sheetsu.com/"></script>
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Blood Donor</h1>
+                <h2 class="subtitle">Initiative by X</h2>
+            </div>
+        </div>
+    </section>
+    <div class="container is-fluid" id="app" v-cloak>
+        <div class="section" v-if="!addBlood">
+            <div class="columns">
+                <div class="column is-full-mobile is-half-tablet is-one-third-desktop" style="display: block;margin:auto">
+                    <div class="box">
+                        <form v-on:submit.prevent="search">
+                            <label class="label">Blood Group*</label>
+                            <p class="control">
+                                <span class="select">
+                                    <select v-model="searchGroup">
+                                        <option value="0" selected="" disabled="">Select a Blood group</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </span>
+                            </p>
+                            <label class="label" v-model="searchCity">City (optional)</label>
+                            <p class="control">
+                                <input class="input" type="text" placeholder="Ex: Bangalore" v-model="searchCity">
+                            </p>
+                            <div class="control is-grouped">
+                                <p class="control">
+                                    <a class="button is-primary" v-on:click="search" v-bind:class="{ 'is-loading': loading}">Search</a>
+                                </p>
+                                <p class="control">
+                                    <a class="button is-primary" v-on:click="addBlood = true">Donate my blood</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="columns is-multiline">
+                <div class="column is-full-mobile is-half-tablet is-one-third-desktop" v-for="donor in donors">
+                    <div class="card" style="padding:15px;border-top:solid 1px #00D1B2;margin-top:20px">
+                        <p style="font-weight: bold">{{donor.name}}</p>
+                        <p style="padding-top:10px;padding-bottom:5px">
+                            <span class="icon">
+                                <i class="ion-ios-telephone-outline"></i>
+                            </span>
+                            <span>{{donor.phone}}</span>
+                        </p>
+                        <p style="padding-top:5px;padding-bottom:5px">
+                            <span class="icon">
+                                <i class="ion-ios-location-outline"></i>
+                            </span>
+                            <span>{{donor.city}}</span>
+                        </p>
+                        <p style="padding-top:5px;padding-bottom:5px">
+                            <span class="icon">
+                                <i class="ion-ios-pulse-strong"></i>
+                            </span>
+                            <span>{{donor.group}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" v-if="addBlood">
+            <div class="column is-full-mobile is-half-tablet is-one-third-desktop" style="display: block;margin:auto">
+                <div class="box">
+                    <form v-on:submit.prevent="donateBlood">
+                        <label class="label">Name*</label>
+                        <p class="control">
+                            <input class="input" type="text" required v-model="donorName">
+                        </p>
+                        <label class="label">Phone*</label>
+                        <p class="control">
+                            <input class="input" type="text" required v-model="donorPhone">
+                        </p>
+                        <label class="label">City*</label>
+                        <p class="control">
+                            <input class="input" type="text" required v-model="donorCity">
+                        </p>
+                        <label class="label">Address*</label>
+                        <p class="control">
+                            <input class="input" type="text" required v-model="donorAddress">
+                        </p>
+                        <label class="label">Blood Group*</label>
+                        <p class="control">
+                            <span class="select">
+                                <select required v-model="donorGroup">
+                                    <option selected="" disabled="">Select a Blood group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                </select>
+                            </span>
+                        </p>
+                        <div class="control is-grouped">
+                            <p class="control">
+                                <button type="submit" class="button is-primary" v-bind:class="{ 'is-loading': donating}">Submit</button>
+                            </p>
+                            <p class="control">
+                                <a class="button is-primary" v-on:click="addBlood = false">Close</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>
